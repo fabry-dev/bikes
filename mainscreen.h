@@ -54,6 +54,8 @@ private:
     void sendDmx1(uint n);
     void sendDmx2(uint n);
 
+    uint dmxLevel1,dmxLevel2;
+
 signals:
     void gotStart(void);
     void doneWin1(void);

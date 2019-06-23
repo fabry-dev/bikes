@@ -207,6 +207,11 @@ void mainScreen::goWin2(void)
 
 void mainScreen::sendDmx1(uint n)
 {
+    if(dmxLevel1 == n)
+        return;
+
+    dmxLevel1 = n;
+
     qDebug()<<"dmx1 "<<n;
     QString txt = "/usr/bin/python "+PATH+"setDmx1.py "+QString::number(n)+" &";
     system(txt.toStdString().c_str());
@@ -215,6 +220,10 @@ void mainScreen::sendDmx1(uint n)
 
 void mainScreen::sendDmx2(uint n)
 {
+    if(dmxLevel2 == n)
+        return;
+
+    dmxLevel2 = n;
      qDebug()<<"dmx2 "<<n;
     QString txt = "/usr/bin/python "+PATH+"setDmx2.py "+QString::number(n)+" &";
     system(txt.toStdString().c_str());
@@ -231,8 +240,7 @@ void mainScreen::sendDmx2(uint n)
 void mainScreen::updateScores()
 {
     timeOut->start();
-    qDebug()<<"score1 "<<score1;
-    qDebug()<<"score2 "<<score2;
+
 
     if(score1>=rotationsToWin)
     {
@@ -269,7 +277,6 @@ void mainScreen::updateScores()
     double a = qMax(a1,a2);
 
 
-    qDebug()<<a;
 
     if((raceState == 0)&&(a>=0.25))//0-25%
     {
