@@ -263,7 +263,7 @@ void mainScreen::sendDmx1(uint n)
 void mainScreen::sendDmx2(uint n)
 {
 
-
+buffer2.Blackout(); // Set all channels to 0
     dmxLevel2 = n;
     qDebug()<<"dmx2 "<<n;
     for (unsigned int i = 0; i < n*3; i++)
