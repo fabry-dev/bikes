@@ -222,8 +222,7 @@ void mainScreen::goWin2(void)
 
 void mainScreen::sendDmx1(uint n)
 {
-    if(dmxLevel1 == n)
-        return;
+
 
     dmxLevel1 = n;
 
@@ -256,8 +255,7 @@ void mainScreen::sendDmx1(uint n)
 
 void mainScreen::sendDmx2(uint n)
 {
-    if(dmxLevel2 == n)
-        return;
+
 
     dmxLevel2 = n;
     qDebug()<<"dmx2 "<<n;
