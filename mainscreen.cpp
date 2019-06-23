@@ -195,7 +195,7 @@ void mainScreen::goWin2(void)
     qDebug()<<"winner2 state";
     vp->show();
     vp->lower();
-    vp->loadFile(PATH+"win2.mp4");
+    vp->loadFile(PATH+"winner2.mp4");
     vp->setProperty("pause", false);
     vp->setProperty("loop", false);
     vp->raise();
@@ -213,8 +213,10 @@ void mainScreen::sendDmx1(uint n)
     dmxLevel1 = n;
 
     qDebug()<<"dmx1 "<<n;
-    QString txt = "/usr/bin/python "+PATH+"setDmx1.py "+QString::number(n)+" &";
+    QString txt = "/usr/bin/python "+PATH+"setDmx1.py "+QString::number(n);
     system(txt.toStdString().c_str());
+
+
 }
 
 
@@ -225,7 +227,8 @@ void mainScreen::sendDmx2(uint n)
 
     dmxLevel2 = n;
      qDebug()<<"dmx2 "<<n;
-    QString txt = "/usr/bin/python "+PATH+"setDmx2.py "+QString::number(n)+" &";
+    QString txt = "/usr/bin/python "+PATH+"setDmx2.py "+QString::number(n);
+
     system(txt.toStdString().c_str());
 }
 

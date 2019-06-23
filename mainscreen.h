@@ -19,6 +19,7 @@
 #include "qdebug.h"
 #include "qstatemachine.h"
 #include "qpainter.h"
+#include "qprocess.h"
 
 class mainScreen : public QLabel
 {
@@ -51,8 +52,12 @@ private:
     QState *win1;
     QState *win2;
 
+    QProcess dmx1Proc,dmx2Proc;
+
     void sendDmx1(uint n);
     void sendDmx2(uint n);
+
+
 
     uint dmxLevel1,dmxLevel2;
 
