@@ -97,8 +97,8 @@ int main(int argc, char *argv[])
 
     uint screenNumber = 2;
 
-    if(screenNumber>a.screens().size())
-        screenNumber = a.screens().size();
+    if(screenNumber>a.screens().size()-1)
+        screenNumber = a.screens().size()-1;
 
 
     ms->setGeometry(a.screens()[screenNumber]->geometry().x(),a.screens()[screenNumber]->geometry().y(),1080,1920);
