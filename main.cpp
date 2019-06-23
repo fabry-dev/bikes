@@ -95,7 +95,10 @@ int main(int argc, char *argv[])
 
     mainScreen * ms = new mainScreen(NULL,PATH,rotations);
 
+    uint screenNumber = 2;
 
+    if(screenNumber>a.screens().size())
+        screenNumber = a.screens().size();
 
 
     ms->setGeometry(a.screens()[2]->geometry().x(),a.screens()[2]->geometry().y(),1080,1920);
