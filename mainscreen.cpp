@@ -1,8 +1,22 @@
 #include "mainscreen.h"
+
+
+
+
 #define TIMEOUT 10000
 
 mainScreen::mainScreen(QLabel *parent, QString PATH, int rotationsToWin, int stripSize) : QLabel(parent),PATH(PATH),rotationsToWin(rotationsToWin),stripSize(stripSize)
 {
+
+//( (ola::client::StreamingClient::Options()));
+
+    // Setup the client, this connects to the server
+    if (!ola_client.Setup())
+    {
+        qDebug() << "Setup failed" ;
+        exit(1);
+    }
+
     showFullScreen();
     resize(1080,1920);
 
@@ -10,8 +24,8 @@ mainScreen::mainScreen(QLabel *parent, QString PATH, int rotationsToWin, int str
     score1=score2 = 0;
 
 
-     qDebug()<<"rotations to win: "<<rotationsToWin;
-     qDebug()<<"stripsize: "<<stripSize;
+    qDebug()<<"rotations to win: "<<rotationsToWin;
+    qDebug()<<"stripsize: "<<stripSize;
 
     vp = new mpvWidget(this);
     vp->resize(size());
@@ -214,8 +228,27 @@ void mainScreen::sendDmx1(uint n)
     dmxLevel1 = n;
 
     qDebug()<<"dmx1 "<<n;
-    QString txt = "/usr/bin/python "+PATH+"setDmx1.py "+QString::number(n);
-    system(txt.toStdString().c_str());
+
+
+
+    buffer.Blackout(); // Set all channels to 0
+
+
+
+    for (unsigned int i = 0; i < n*3; i++)
+    {
+        buffer.SetChannel(i, 255);
+    }
+
+    ola_client.SendDmx(1, buffer);
+
+
+
+
+
+
+    //   QString txt = "/usr/bin/python "+PATH+"setDmx1.py "+QString::number(n);
+ //   system(txt.toStdString().c_str());
 
 
 }
@@ -227,10 +260,16 @@ void mainScreen::sendDmx2(uint n)
         return;
 
     dmxLevel2 = n;
-     qDebug()<<"dmx2 "<<n;
-    QString txt = "/usr/bin/python "+PATH+"setDmx2.py "+QString::number(n);
+    qDebug()<<"dmx2 "<<n;
+    for (unsigned int i = 0; i < n*3; i++)
+    {
+        buffer.SetChannel(i, 255);
+    }
 
-    system(txt.toStdString().c_str());
+    ola_client.SendDmx(2, buffer);
+
+
+
 }
 
 
@@ -332,7 +371,7 @@ void mainScreen::getData(int data)
                 score2++;
 
 
-         updateScores();
+            updateScores();
         }
 
 

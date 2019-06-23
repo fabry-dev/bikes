@@ -30,3 +30,5 @@ HEADERS  += \
 
 FORMS    +=
 
+
+LIBS+= -lola -lolacommon -lprotobuf

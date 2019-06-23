@@ -21,6 +21,12 @@
 #include "qpainter.h"
 #include "qprocess.h"
 
+
+#include <ola/DmxBuffer.h>
+#include <ola/Logging.h>
+#include <ola/client/StreamingClient.h>
+
+
 class mainScreen : public QLabel
 {
     Q_OBJECT
@@ -61,6 +67,14 @@ private:
 
 
     uint dmxLevel1,dmxLevel2;
+
+
+
+
+    ola::DmxBuffer buffer; // A DmxBuffer to hold the data.
+    // Create a new client.
+    ola::client::StreamingClient ola_client;//
+
 
 signals:
     void gotStart(void);
