@@ -11,7 +11,14 @@ mainScreen::mainScreen(QLabel *parent, QString PATH, int rotationsToWin, int str
 //( (ola::client::StreamingClient::Options()));
 
     // Setup the client, this connects to the server
-    if (!ola_client.Setup())
+    if (!ola_client1.Setup())
+    {
+        qDebug() << "Setup failed" ;
+        exit(1);
+    }
+
+    // Setup the client, this connects to the server
+    if (!ola_client2.Setup())
     {
         qDebug() << "Setup failed" ;
         exit(1);
@@ -230,16 +237,16 @@ void mainScreen::sendDmx1(uint n)
 
 
 
-    buffer.Blackout(); // Set all channels to 0
+    buffer1.Blackout(); // Set all channels to 0
 
 
 
     for (unsigned int i = 0; i < n*3; i++)
     {
-        buffer.SetChannel(i, 255);
+        buffer1.SetChannel(i, 255);
     }
 
-    ola_client.SendDmx(1, buffer);
+    ola_client1.SendDmx(1, buffer1);
 
 
 
@@ -261,10 +268,10 @@ void mainScreen::sendDmx2(uint n)
     qDebug()<<"dmx2 "<<n;
     for (unsigned int i = 0; i < n*3; i++)
     {
-        buffer.SetChannel(i, 255);
+        buffer2.SetChannel(i, 255);
     }
 
-    ola_client.SendDmx(2, buffer);
+    ola_client2.SendDmx(2, buffer2);
 
 
 

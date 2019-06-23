@@ -71,9 +71,11 @@ private:
 
 
 
-    ola::DmxBuffer buffer; // A DmxBuffer to hold the data.
-    // Create a new client.
-    ola::client::StreamingClient ola_client;//
+    ola::DmxBuffer buffer1; // A DmxBuffer to hold the data.
+    ola::client::StreamingClient ola_client1;   // Create a new client.
+
+    ola::DmxBuffer buffer2; // A DmxBuffer to hold the data.
+    ola::client::StreamingClient ola_client2;   // Create a new client.
 
 
 signals:
