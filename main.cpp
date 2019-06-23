@@ -102,10 +102,11 @@ int main(int argc, char *argv[])
 
 
     ms->setGeometry(a.screens()[screenNumber]->geometry().x(),a.screens()[screenNumber]->geometry().y(),1080,1920);
-    ms->show();
+    ms->hide();
 
     if(DEBUG)
     {
+        qDebug()<<"debug";
     QPushButton *pb0 = new QPushButton(ms);
     pb0->move(0,0);
     pb0->resize(200,200);
