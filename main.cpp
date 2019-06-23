@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
     bool HIDE_CURSOR=false;
     bool DEBUG=false;
     int rotations = 5;
+    int stripSize = 170;
 
     QFile file(PATH+"config.cfg");
     if(!file.open(QIODevice::ReadOnly)) {
@@ -66,6 +67,11 @@ int main(int argc, char *argv[])
                     rotations = paramValue.toInt();
 
                 }
+                else if (paramName=="STRIPSIZE")
+                {
+                    stripSize = paramValue.toInt();
+
+                }
 
 
                 else
@@ -93,7 +99,7 @@ int main(int argc, char *argv[])
 
     qDebug()<<"Screens count: "<<a.screens().size();
 
-    mainScreen * ms = new mainScreen(NULL,PATH,rotations);
+    mainScreen * ms = new mainScreen(NULL,PATH,rotations,stripSize);
 
     uint screenNumber = 2;
 

@@ -1,7 +1,7 @@
 #include "mainscreen.h"
 #define TIMEOUT 10000
 
-mainScreen::mainScreen(QLabel *parent,QString PATH,int rotationsToWin) : QLabel(parent),PATH(PATH),rotationsToWin(rotationsToWin)
+mainScreen::mainScreen(QLabel *parent, QString PATH, int rotationsToWin, int stripSize) : QLabel(parent),PATH(PATH),rotationsToWin(rotationsToWin),stripSize(stripSize)
 {
     showFullScreen();
     resize(1080,1920);
@@ -11,6 +11,7 @@ mainScreen::mainScreen(QLabel *parent,QString PATH,int rotationsToWin) : QLabel(
 
 
      qDebug()<<"rotations to win: "<<rotationsToWin;
+     qDebug()<<"stripsize: "<<stripSize;
 
     vp = new mpvWidget(this);
     vp->resize(size());
@@ -249,14 +250,14 @@ void mainScreen::updateScores()
     {
         emit doneWin1();
         raceStarted = false;
-        sendDmx1(170);
+        sendDmx1(stripSize);
         return;
     }
     else if(score2>=rotationsToWin)
     {
         emit doneWin2();
         raceStarted = false;
-        sendDmx1(170);
+        sendDmx1(stripSize);
         return;
     }
 
@@ -267,8 +268,8 @@ void mainScreen::updateScores()
     a1 = (double)score1/rotationsToWin;
     a2 = (double)score2/rotationsToWin;
 
-    uint A1 = (double)a1*170;
-    uint A2 = (double)a2*170;
+    uint A1 = (double)a1*stripSize;
+    uint A2 = (double)a2*stripSize;
 
 
     sendDmx1(A1);

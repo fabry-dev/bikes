@@ -25,11 +25,12 @@ class mainScreen : public QLabel
 {
     Q_OBJECT
 public:
-    explicit mainScreen(QLabel *parent = nullptr, QString PATH="", int rotationsToWin=5);
+    explicit mainScreen(QLabel *parent = nullptr, QString PATH="", int rotationsToWin=5, int stripSize = 170);
 
 private:
     QString PATH;
     int rotationsToWin;
+    int stripSize;
     int raceState;
 
 
