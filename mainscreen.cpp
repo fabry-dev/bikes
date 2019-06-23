@@ -1,4 +1,5 @@
 #include "mainscreen.h"
+#define TIMEOUT 10000
 
 mainScreen::mainScreen(QLabel *parent,QString PATH,int rotationsToWin) : QLabel(parent),PATH(PATH),rotationsToWin(rotationsToWin)
 {
@@ -17,6 +18,14 @@ mainScreen::mainScreen(QLabel *parent,QString PATH,int rotationsToWin) : QLabel(
     vp->setProperty("pause", false);
     vp->setProperty("keep-open",true);
     vp->hide();
+
+    sendDmx1(0);
+    sendDmx2(0);
+
+    timeOut = new QTimer(this);
+    timeOut->setInterval(TIMEOUT);
+    timeOut->setSingleShot(true);
+
 
     setupStates();
 }
@@ -47,6 +56,7 @@ void mainScreen::setupStates()
     loop->addTransition(this,SIGNAL(done25p()),state25);
     connect(state25,SIGNAL(entered()),this,SLOT(go25()));
     state25->addTransition(vp,SIGNAL(videoOver()),loop);
+    loop->addTransition(timeOut,SIGNAL(timeout()),idle);//time out go back to idle
 
     loop->addTransition(this,SIGNAL(done50p()),state50);
     connect(state50,SIGNAL(entered()),this,SLOT(go50()));
@@ -87,7 +97,8 @@ void mainScreen::setupStates()
 void mainScreen::goIdle(void)
 {
     qDebug()<<"idle state";
-
+    sendDmx1(0);
+    sendDmx2(0);
     raceStarted = false;
 
     vp->show();
@@ -110,6 +121,8 @@ void mainScreen::goStart()
     vp->setProperty("pause", false);
     vp->setProperty("loop", false);
     vp->raise();
+
+    timeOut->start();
 }
 
 void mainScreen::goLoop()
@@ -124,6 +137,8 @@ void mainScreen::goLoop()
     vp->setProperty("pause", false);
     vp->setProperty("loop", true);
     vp->raise();
+
+    timeOut->start();
 }
 
 
@@ -170,6 +185,8 @@ void mainScreen::goWin1(void)
     vp->setProperty("pause", false);
     vp->setProperty("loop", false);
     vp->raise();
+
+    timeOut->start();
 }
 
 
@@ -182,13 +199,36 @@ void mainScreen::goWin2(void)
     vp->setProperty("pause", false);
     vp->setProperty("loop", false);
     vp->raise();
+
+    timeOut->start();
 }
+
+
+
+void mainScreen::sendDmx1(uint n)
+{
+    QString txt = "/usr/bin/python "+PATH+"setDmx1.py "+QString::number(n)+" &";
+    system(txt.toStdString().c_str());
+}
+
+
+void mainScreen::sendDmx2(uint n)
+{
+    QString txt = "/usr/bin/python "+PATH+"setDmx2.py "+QString::number(n)+" &";
+    system(txt.toStdString().c_str());
+}
+
+
+
+
+
+
 
 
 
 void mainScreen::updateScores()
 {
-
+    timeOut->start();
     qDebug()<<"score1 "<<score1;
     qDebug()<<"score2 "<<score2;
 
@@ -196,12 +236,14 @@ void mainScreen::updateScores()
     {
         emit doneWin1();
         raceStarted = false;
+        sendDmx1(170);
         return;
     }
     else if(score2>=rotationsToWin)
     {
         emit doneWin2();
         raceStarted = false;
+        sendDmx1(170);
         return;
     }
 
@@ -211,6 +253,17 @@ void mainScreen::updateScores()
 
     a1 = (double)score1/rotationsToWin;
     a2 = (double)score2/rotationsToWin;
+
+    uint A1 = (double)a1*170;
+    uint A2 = (double)a2*170;
+
+
+    sendDmx1(A1);
+    sendDmx2(A2);
+
+
+
+
     double a = qMax(a1,a2);
 
 

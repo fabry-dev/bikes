@@ -32,6 +32,8 @@ private:
     int raceState;
 
 
+    QTimer *timeOut;
+
     void setupStates();
     QStateMachine machine;
     mpvWidget *vp;
@@ -48,6 +50,9 @@ private:
     QState *state75;
     QState *win1;
     QState *win2;
+
+    void sendDmx1(uint n);
+    void sendDmx2(uint n);
 
 signals:
     void gotStart(void);

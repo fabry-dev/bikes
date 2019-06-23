@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 
 
     ms->setGeometry(a.screens()[screenNumber]->geometry().x(),a.screens()[screenNumber]->geometry().y(),1080,1920);
-    ms->hide();
+    ms->show();
 
     if(DEBUG)
     {
