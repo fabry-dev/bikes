@@ -207,6 +207,7 @@ void mainScreen::goWin2(void)
 
 void mainScreen::sendDmx1(uint n)
 {
+    qDebug()<<"dmx1 "<<n;
     QString txt = "/usr/bin/python "+PATH+"setDmx1.py "+QString::number(n)+" &";
     system(txt.toStdString().c_str());
 }
